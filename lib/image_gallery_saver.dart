@@ -14,6 +14,7 @@ class ImageGallerySaver {
   static Future saveImage(Uint8List imageBytes,
       {int quality = 80,
       String name,
+      String locaPath,
       bool isReturnImagePathOfIOS = false}) async {
     assert(imageBytes != null);
     final result =
@@ -21,6 +22,7 @@ class ImageGallerySaver {
       'imageBytes': imageBytes,
       'quality': quality,
       'name': name,
+      'locaPath':locaPath,
       'isReturnImagePathOfIOS': isReturnImagePathOfIOS
     });
     return result;
