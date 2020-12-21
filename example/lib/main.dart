@@ -126,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final result = await ImageGallerySaver.saveImage(
         Uint8List.fromList(response.data),
         quality: 60,
-        name: "hello");
+        name: "hello",locaPath: '');
     print(result);
     _toastInfo("$result");
   }

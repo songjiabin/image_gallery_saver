@@ -32,8 +32,8 @@ class ImageGallerySaverPlugin(private val registrar: Registrar) : MethodCallHand
                 val image = call.argument<ByteArray>("imageBytes") ?: return
                 val quality = call.argument<Int>("quality") ?: return
                 val name = call.argument<String>("name")
-                val locaPath = call.argument<String>("locaPath") ?: return
-                result.success(saveImageToGallery(BitmapFactory.decodeByteArray(image, 0, image.size), quality, name,locaPath))
+                val locaPath = call.argument<String>("locaPath")
+                result.success(saveImageToGallery(BitmapFactory.decodeByteArray(image, 0, image.size), quality, name, locaPath))
             }
             call.method == "saveFileToGallery" -> {
                 val path = call.argument<String>("file") ?: return
@@ -45,21 +45,21 @@ class ImageGallerySaverPlugin(private val registrar: Registrar) : MethodCallHand
     }
 
     private fun generateFile(extension: String = "", name: String? = null): File {
-        val storePath =  Environment.getExternalStorageDirectory().absolutePath + File.separator + getApplicationName()
+        val storePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + getApplicationName()
         val appDir = File(storePath)
         if (!appDir.exists()) {
             appDir.mkdir()
         }
-        var fileName = name?:System.currentTimeMillis().toString()
+        var fileName = name ?: System.currentTimeMillis().toString()
         if (extension.isNotEmpty()) {
             fileName += (".$extension")
         }
         return File(appDir, fileName)
     }
 
-    private fun saveImageToGallery(bmp: Bitmap, quality: Int, name: String?, localPath: String?): HashMap<String, Any?> {
+    private fun saveImageToGallery(bmp: Bitmap, quality: Int, name: String?, locaPath: String?): HashMap<String, Any?> {
         val context = registrar.activeContext().applicationContext
-        val file = File(localPath)
+        val file = File(locaPath)
         return try {
             val fos = FileOutputStream(file)
             println("ImageGallerySaverPlugin $quality")
